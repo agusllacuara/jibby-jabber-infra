@@ -2,42 +2,71 @@ version: '3.4'
 
 services:
 
-  webmvc:
-    image: jibby-jabber
-    environment:
-      - CatalogUrl=http://catalog-api
-      - OrderingUrl=http://ordering-api
+  post-db:
+    image: library/postgres:9.6
+    container_name: 'postgresPosts'
     ports:
-      - "80:80"
-    depends_on:
-      - user-api
-      - posts-api
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: post
+    volumes:
+      - post_data:/var/lib/postgresql/data
+
+  user-db:
+    image: library/postgres:9.6
+    container_name: 'postgresUsers'
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: users
+    volumes:
+      - user_data:/var/lib/postgresql/data
+
+  jibby-jabber:
+    container_name: jibby-jabber
+    image: docker.pkg.github.com/nickyfox/jibby-jabber/jibby-jabber-dev:latest
+    ports:
+      - '8080:8080'
 
   user-api:
-    image: jibby-jabber-users
-    environment:
-      - ConnectionString=Server=sqldata;Port=1433;Database=CatalogDB;…
+    container_name: jibby-jabber-users
+    image: docker.pkg.github.com/nickyfox/jibby-jabber-user/jibby-jabber-user-dev:latest
     ports:
-      - "82:80"
-    depends_on:
-      - postgres
+      - '8082:8080'
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: users
+      DB_HOST: postgresUsers
+      DB_PORT: 5432
 
   posts-api:
-    image: jibby-jabber-posts
-    environment:
-      - ConnectionString=Server=sqldata;Database=OrderingDb;…
+    image: docker.pkg.github.com/agusllacuara/jibby-jabber-post/jibby-jabber-post-dev:latest
     ports:
-      -
-      - "83:80"
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:9.6
+      - '8083:8080'
     environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-    ports:
-      - "5432:5432"
-      - "5433:5432"
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: post
+      DB_HOST: postgresPosts
+      DB_PORT: 5432
 
+  client:
+    container_name: jibby-jabber-client
+    image: docker.pkg.github.com/agusllacuara/jibber-jabber-frontend/jj-frontend-image:latest
+
+
+  revproxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    ports:
+      - 80:80
+
+volumes:
+  user_data:
+  post_data:
