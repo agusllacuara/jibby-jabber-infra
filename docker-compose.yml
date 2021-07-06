@@ -21,7 +21,7 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: jibby
+      DB_NAME: postgresJibby
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
@@ -33,7 +33,7 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: jibby
+      DB_NAME: postgresJibby
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
@@ -45,7 +45,7 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: jibby
+      DB_NAME: postgresJibby
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
@@ -57,7 +57,7 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: jibby
+      DB_NAME: postgresJibby
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
