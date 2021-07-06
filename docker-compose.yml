@@ -15,7 +15,7 @@ services:
 
   jibby-jabber:
     container_name: jibby-jabber
-    image: docker.pkg.github.com/nickyfox/jibby-jabber/jibby-jabber-dev:latest
+    image: docker.pkg.github.com/nickyfox/jibby-jabber/jibby-jabber:latest
     ports:
       - '8080:8080'
     environment:
@@ -27,7 +27,7 @@ services:
 
   user-api:
     container_name: jibby-jabber-users
-    image: docker.pkg.github.com/nickyfox/jibby-jabber-user/jibby-jabber-user-dev:latest
+    image: docker.pkg.github.com/nickyfox/jibby-jabber-user/jibby-jabber-user:latest
     ports:
       - '8082:8080'
     environment:
@@ -39,7 +39,7 @@ services:
 
   posts-api:
     container_name: jibby-jabber-posts
-    image: docker.pkg.github.com/agusllacuara/jibby-jabber-post/jibby-jabber-post-dev:latest
+    image: docker.pkg.github.com/agusllacuara/jibby-jabber-post/jibby-jabber-post:latest
     ports:
       - '8083:8080'
     environment:
