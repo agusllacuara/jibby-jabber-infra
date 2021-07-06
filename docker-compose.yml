@@ -2,29 +2,17 @@ version: '3.4'
 
 services:
 
-  post-db:
+  db:
     image: library/postgres:9.6
-    container_name: 'postgresPosts'
+    container_name: 'postgresJibby'
     ports:
       - '5432:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: post
+      POSTGRES_DB: jibby
     volumes:
       - post_data:/var/lib/postgresql/data
-
-  user-db:
-    image: library/postgres:9.6
-    container_name: 'postgresUsers'
-    ports:
-      - '5433:5432'
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: users
-    volumes:
-      - user_data:/var/lib/postgresql/data
 
   jibby-jabber:
     container_name: jibby-jabber
@@ -40,8 +28,8 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: users
-      DB_HOST: postgresUsers
+      DB_NAME: jibby
+      DB_HOST: postgresJibby
       DB_PORT: 5432
 
   posts-api:
@@ -51,8 +39,8 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: post
-      DB_HOST: postgresPosts
+      DB_NAME: jibby
+      DB_HOST: postgresJibby
       DB_PORT: 5432
 
   client:
