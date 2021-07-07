@@ -24,6 +24,9 @@ services:
       DB_NAME: postgresJibby
       DB_HOST: postgresJibby
       DB_PORT: 5432
+      MESSAGE_SERVICE_URL: http://jibby-jabber-messages:8084/
+      USER_SERVICE_URL: http://jibby-jabber-users:8082/users
+      POST_SERVICE_URL: http://jibby-jabber-posts:8083/post
 
   user-api:
     container_name: jibby-jabber-users
