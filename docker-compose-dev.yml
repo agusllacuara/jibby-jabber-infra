@@ -1,0 +1,76 @@
+version: '3.4'
+
+services:
+  db:
+    image: library/postgres:9.6
+    container_name: 'postgresJibby'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgresJibby
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  jibby-jabber:
+    container_name: jibby-jabber
+    image: docker.pkg.github.com/nickyfox/jibby-jabber/jibby-jabber-dev:latest
+    ports:
+      - '8080:8080'
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: postgresJibby
+      DB_HOST: postgresJibby
+      DB_PORT: 5432
+
+  user-api:
+    container_name: jibby-jabber-users
+    image: docker.pkg.github.com/nickyfox/jibby-jabber-user/jibby-jabber-user-dev:latest
+    ports:
+      - '8082:8080'
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: postgresJibby
+      DB_HOST: postgresJibby
+      DB_PORT: 5432
+
+  posts-api:
+    container_name: jibby-jabber-posts
+    image: docker.pkg.github.com/agusllacuara/jibby-jabber-post/jibby-jabber-post-dev:latest
+    ports:
+      - '8083:8080'
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: postgresJibby
+      DB_HOST: postgresJibby
+      DB_PORT: 5432
+
+  messages-api:
+    container_name: jibby-jabber-messages
+    image: docker.pkg.github.com/nickyfox/jibby-jabber-message/jibby-jabber-messages-dev:latest
+    ports:
+      - '8084:8080'
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: postgresJibby
+      DB_HOST: postgresJibby
+      DB_PORT: 5432
+
+  client:
+    container_name: jibby-jabber-client
+    image: docker.pkg.github.com/agusllacuara/jibber-jabber-frontend/jj-frontend-image:latest
+
+  revproxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    ports:
+      - 80:80
+
+volumes:
+  db_data:
