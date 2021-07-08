@@ -13,8 +13,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
-  jibby-jabber:
-    container_name: jibby-jabber
+  jibby-jabber-dev:
+    container_name: jibby-jabber-dev
     image: docker.pkg.github.com/nickyfox/jibby-jabber/jibby-jabber-dev:latest
     ports:
       - '8080:8080'
@@ -24,12 +24,9 @@ services:
       DB_NAME: postgresJibby
       DB_HOST: postgresJibby
       DB_PORT: 5432
-      MESSAGE_SERVICE_URL: http://jibby-jabber-messages:8084/
-      USER_SERVICE_URL: http://jibby-jabber-users:8082/users
-      POST_SERVICE_URL: http://jibby-jabber-posts:8083/post
 
-  user-api:
-    container_name: jibby-jabber-users
+  user-api-dev:
+    container_name: jibby-jabber-users-dev
     image: docker.pkg.github.com/nickyfox/jibby-jabber-user/jibby-jabber-user-dev:latest
     ports:
       - '8082:8080'
@@ -40,8 +37,8 @@ services:
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
-  posts-api:
-    container_name: jibby-jabber-posts
+  posts-api-dev:
+    container_name: jibby-jabber-posts-dev
     image: docker.pkg.github.com/agusllacuara/jibby-jabber-post/jibby-jabber-post-dev:latest
     ports:
       - '8083:8080'
@@ -52,8 +49,8 @@ services:
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
-  messages-api:
-    container_name: jibby-jabber-messages
+  messages-api-dev:
+    container_name: jibby-jabber-messages-dev
     image: docker.pkg.github.com/nickyfox/jibby-jabber-message/jibby-jabber-messages-dev:latest
     ports:
       - '8084:8080'
@@ -64,11 +61,11 @@ services:
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
-  client:
-    container_name: jibby-jabber-client
+  client-dev:
+    container_name: jibby-jabber-client-dev
     image: docker.pkg.github.com/agusllacuara/jibber-jabber-frontend/jj-frontend-image-dev:latest
 
-  revproxy:
+  revproxy-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
