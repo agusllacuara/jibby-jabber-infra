@@ -71,7 +71,7 @@ services:
   revproxy:
     build:
       context: .
-      dockerfile: Dockerfile.proxy
+      dockerfile: Dockerfile.dev
     ports:
       - 80:80
 
