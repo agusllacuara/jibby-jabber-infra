@@ -13,9 +13,9 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
-  jibby-jabber:
-    container_name: jibby-jabber
-    image: docker.pkg.github.com/nickyfox/jibby-jabber/jibby-jabber:latest
+  jibby-jabber-dev:
+    container_name: jibby-jabber-dev
+    image: docker.pkg.github.com/nickyfox/jibby-jabber/jibby-jabber-dev:latest
     ports:
       - '8080:8080'
     environment:
@@ -25,9 +25,9 @@ services:
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
-  user-api:
-    container_name: jibby-jabber-users
-    image: docker.pkg.github.com/nickyfox/jibby-jabber-user/jibby-jabber-user:latest
+  user-api-dev:
+    container_name: jibby-jabber-users-dev
+    image: docker.pkg.github.com/nickyfox/jibby-jabber-user/jibby-jabber-user-dev:latest
     ports:
       - '8082:8080'
     environment:
@@ -37,9 +37,9 @@ services:
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
-  posts-api:
-    container_name: jibby-jabber-posts
-    image: docker.pkg.github.com/agusllacuara/jibby-jabber-post/jibby-jabber-post:latest
+  posts-api-dev:
+    container_name: jibby-jabber-posts-dev
+    image: docker.pkg.github.com/agusllacuara/jibby-jabber-post/jibby-jabber-post-dev:latest
     ports:
       - '8083:8080'
     environment:
@@ -49,9 +49,9 @@ services:
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
-  messages-api:
-    container_name: jibby-jabber-messages
-    image: docker.pkg.github.com/nickyfox/jibby-jabber-message/jibby-jabber-messages:latest
+  messages-api-dev:
+    container_name: jibby-jabber-messages-dev
+    image: docker.pkg.github.com/nickyfox/jibby-jabber-message/jibby-jabber-messages-dev:latest
     ports:
       - '8084:8080'
     environment:
@@ -61,16 +61,27 @@ services:
       DB_HOST: postgresJibby
       DB_PORT: 5432
 
-  client:
-    container_name: jibby-jabber-client
-    image: docker.pkg.github.com/agusllacuara/jibber-jabber-frontend/jj-frontend-image:latest
+  client-dev:
+    container_name: jibby-jabber-client-dev
+    image: docker.pkg.github.com/agusllacuara/jibber-jabber-frontend/jj-frontend-image-dev:latest
 
-  revproxy:
+  nginx:
     build:
       context: .
-      dockerfile: Dockerfile.proxy
+      dockerfile: Dockerfile.dev
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
 
 volumes:
   db_data:
