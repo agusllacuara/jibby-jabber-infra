@@ -12,39 +12,6 @@ services:
       POSTGRES_DB: postgresJibby
     volumes:
       - db_data:/var/lib/postgresql/data
-  user_db:
-    image: library/postgres:9.6
-    container_name: 'postgresJibbyUser'
-    ports:
-      - '5433:5432'
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgresJibbyUser
-    volumes:
-      - db_data:/var/lib/postgresql/data
-  post_db:
-    image: library/postgres:9.6
-    container_name: 'postgresJibbyPost'
-    ports:
-      - '5434:5432'
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgresJibbyPost
-    volumes:
-      - db_data:/var/lib/postgresql/data
-  message_db:
-    image: library/postgres:9.6
-    container_name: 'postgresJibbyMessage'
-    ports:
-      - '5435:5432'
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgresJibbyMessage
-    volumes:
-      - db_data:/var/lib/postgresql/data
 
   jibby-jabber:
     container_name: jibby-jabber
@@ -66,9 +33,9 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: postgresJibbyUser
-      DB_HOST: postgresJibbyUser
-      DB_PORT: 5433
+      DB_NAME: postgresJibby
+      DB_HOST: postgresJibby
+      DB_PORT: 5432
 
   posts-api:
     container_name: jibby-jabber-posts
@@ -78,9 +45,9 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: postgresJibbyPost
-      DB_HOST: postgresJibbyPost
-      DB_PORT: 5434
+      DB_NAME: postgresJibby
+      DB_HOST: postgresJibby
+      DB_PORT: 5432
 
   messages-api:
     container_name: jibby-jabber-messages
@@ -90,9 +57,9 @@ services:
     environment:
       DB_USER: postgres
       DB_PASSWORD: password
-      DB_NAME: postgresJibbyMessage
-      DB_HOST: postgresJibbyMessage
-      DB_PORT: 5435
+      DB_NAME: postgresJibby
+      DB_HOST: postgresJibby
+      DB_PORT: 5432
 
   client:
     container_name: jibby-jabber-client
