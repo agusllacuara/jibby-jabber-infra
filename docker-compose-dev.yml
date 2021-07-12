@@ -65,7 +65,7 @@ services:
     container_name: jibby-jabber-client-dev
     image: docker.pkg.github.com/agusllacuara/jibber-jabber-frontend/jj-frontend-image-dev:latest
 
-  revproxy-dev:
+  nginx:
     build:
       context: .
       dockerfile: Dockerfile.dev
